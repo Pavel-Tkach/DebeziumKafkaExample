@@ -1,16 +1,20 @@
 package org.example.debeziumapp.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
-import org.example.debeziumapp.repository.api.StudentChangeRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Component
 @RequiredArgsConstructor
-public class JdbcStudentChangeRepository extends JdbcDaoSupport {
+public class StudentChangeNativeRepository {
+
+    @PersistenceContext
+    private final EntityManager entityManager;
 
     public void executeNativeSql(String sql) {
-        getJdbcTemplate().execute(sql);
+        entityManager.createNativeQuery(sql).executeUpdate();
     }
 }

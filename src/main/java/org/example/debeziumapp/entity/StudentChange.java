@@ -1,17 +1,16 @@
 package org.example.debeziumapp.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.debeziumapp.entity.enums.ChangeStatus;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "student_change")
 public class StudentChange {
 
     @Id

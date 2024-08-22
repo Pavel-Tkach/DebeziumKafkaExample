@@ -1,4 +1,4 @@
-package org.example.debeziumapp.repository;
+package org.example.debeziumapp.repository.api;
 
 import org.example.debeziumapp.entity.StudentChange;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,11 +10,5 @@ import java.util.List;
 @Repository
 public interface StudentChangeRepository extends JpaRepository<StudentChange, Long> {
 
-    List<StudentChange> findByTableNameIgnoreCase(String tableName);
-
-    default void executeNativeSql(String sql) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        jdbcTemplate.execute(sql);
-        //todo выполнить sql скрипт
-    }
+    List<StudentChange> findAllByTableName(String tableName);
 }

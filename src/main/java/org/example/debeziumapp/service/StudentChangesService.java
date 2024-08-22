@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.debeziumapp.entity.Student;
 import org.example.debeziumapp.entity.StudentChange;
 import org.example.debeziumapp.entity.enums.ChangeStatus;
-import org.example.debeziumapp.repository.StudentChangeRepository;
+import org.example.debeziumapp.repository.api.StudentChangeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -16,7 +16,7 @@ public class StudentChangesService {
     private final StudentChangeRepository studentChangeRepository;
 
     public void executeStudentChanges(String before, Student student, String tableName) {
-        String sqlScript = Objects.isNull(before) ? generateInsertSql(student, tableName) : generateUpdateSql(student, tableName);
+        String sqlScript = "null".equals(before) ? generateInsertSql(student, tableName) : generateUpdateSql(student, tableName);
         StudentChange studentChange = StudentChange.builder()
                 .sql(sqlScript)
                 .status(ChangeStatus.CREATED)
@@ -26,8 +26,8 @@ public class StudentChangesService {
     }
 
     private String generateInsertSql(Student student, String tableName) {
-        return "INSERT INTO %s (id, name) VALUES (%d, %s)"
-                .formatted(tableName, student.getId(), student.getName());
+        return "INSERT INTO %s (name) VALUES ('%s')"
+                .formatted(tableName, student.getName());
     }
 
     private String generateUpdateSql(Student student, String tableName) {

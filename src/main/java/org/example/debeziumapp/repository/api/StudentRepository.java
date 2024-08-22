@@ -1,4 +1,4 @@
-package org.example.debeziumapp.repository;
+package org.example.debeziumapp.repository.api;
 
 import org.example.debeziumapp.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;

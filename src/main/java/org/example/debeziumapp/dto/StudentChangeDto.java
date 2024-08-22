@@ -1,24 +1,16 @@
 package org.example.debeziumapp.dto;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.example.debeziumapp.entity.enums.ChangeStatus;
+import lombok.Data;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class StudentChangeDto {
 
     private Long id;
 
     private String sql;
 
-    @Enumerated(value = EnumType.STRING)
-    private ChangeStatus status;
+    private String status;
 
     @Column(name = "table_name")
     private String tableName;
