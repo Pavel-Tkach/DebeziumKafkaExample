@@ -31,7 +31,7 @@ public class StudentChangesService {
     }
 
     private String generateUpdateSql(Student student, String tableName) {
-        return "UPDATE %s SET name = %s WHERE id = %d"
+        return "UPDATE %s SET name = '%s' WHERE id = %d"
                 .formatted(tableName, student.getName(), student.getId());
     }
 }

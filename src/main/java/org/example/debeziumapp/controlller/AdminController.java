@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/changes")
+@RequestMapping("/changes")
 @RequiredArgsConstructor
 public class AdminController {
 
@@ -19,7 +19,7 @@ public class AdminController {
         return adminService.findAll(tableName);
     }
 
-    @PostMapping("/{changeId}")
+    @PostMapping("/{changeId}/execute")
     public void executeChange(@PathVariable Long changeId) {
         adminService.executeChange(changeId);
     }
