@@ -12,7 +12,7 @@ public class StudentListener {
 
     private final JsonParser jsonParser;
 
-    private final StudentChangesService studentChangesService;
+    private final ChangeService changeService;
 
     @KafkaListener(topics = "postgres.public.student", groupId = "student")
     public void listen(String jsonDataChanges) {
@@ -20,6 +20,6 @@ public class StudentListener {
         String before = beforeAndAfterData[0];
         Student student = jsonParser.parseAfterData(beforeAndAfterData[1]);
         String tableName = jsonParser.getTableNameFromJson(jsonDataChanges);
-        studentChangesService.executeStudentChanges(before, student, tableName);
+        changeService.executeStudentChanges(before, student, tableName);
     }
 }

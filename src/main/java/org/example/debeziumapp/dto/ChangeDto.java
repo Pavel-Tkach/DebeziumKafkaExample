@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
-public class StudentChangeDto {
+public class ChangeDto {
 
     private Long id;
 

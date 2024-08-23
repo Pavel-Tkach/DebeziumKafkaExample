@@ -1,28 +1,26 @@
 package org.example.debeziumapp.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.debeziumapp.entity.Change;
 import org.example.debeziumapp.entity.Student;
-import org.example.debeziumapp.entity.StudentChange;
 import org.example.debeziumapp.entity.enums.ChangeStatus;
-import org.example.debeziumapp.repository.api.StudentChangeRepository;
+import org.example.debeziumapp.repository.api.ChangeRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class StudentChangesService {
+public class ChangeService {
 
-    private final StudentChangeRepository studentChangeRepository;
+    private final ChangeRepository changeRepository;
 
     public void executeStudentChanges(String before, Student student, String tableName) {
         String sqlScript = "null".equals(before) ? generateInsertSql(student, tableName) : generateUpdateSql(student, tableName);
-        StudentChange studentChange = StudentChange.builder()
+        Change change = Change.builder()
                 .sql(sqlScript)
                 .status(ChangeStatus.CREATED)
                 .tableName(tableName)
                 .build();
-        studentChangeRepository.save(studentChange);
+        changeRepository.save(change);
     }
 
     private String generateInsertSql(Student student, String tableName) {

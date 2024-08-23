@@ -10,8 +10,7 @@ import org.example.debeziumapp.entity.enums.ChangeStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "student_change")
-public class StudentChange {
+public class Change {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
