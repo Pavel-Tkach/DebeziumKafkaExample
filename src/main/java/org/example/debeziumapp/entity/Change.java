@@ -16,6 +16,9 @@ public class Change {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "change_content")
+    private String changeContent;
+
     private String sql;
 
     @Enumerated(value = EnumType.STRING)

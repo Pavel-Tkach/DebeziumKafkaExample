@@ -16,7 +16,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=destination_db
+      - POSTGRES_DB=source_db
 
   zookeeper:
     image: confluentinc/cp-zookeeper:5.5.3
