@@ -9,7 +9,5 @@ import java.util.List;
 @Repository
 public interface ChangeRepository extends JpaRepository<Change, Long> {
 
-    List<Change> findAllByTableName(String tableName);
-
     List<Change> findByIdIn(List<Long> ids);
 }

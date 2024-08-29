@@ -23,8 +23,8 @@ public class StudentListener {
 
     @KafkaListener(topics = "postgres.public.student", groupId = "student")
     public void listen(String jsonDataChanges) {
-        String changeContent = jsonParser.getChangeContent(jsonDataChanges)[0];
         String tableName = jsonParser.getTableNameFromJson(jsonDataChanges);
+        String changeContent = jsonParser.getChangeContent(jsonDataChanges)[0];
         String before = jsonParser.getChangeContent(jsonDataChanges)[1];
         String after = jsonParser.getChangeContent(jsonDataChanges)[2];
         Map<String, String> parsedAfterData = jsonParser.parseAfterData(after);
