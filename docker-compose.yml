@@ -18,6 +18,24 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=source_db
 
+  postgres3:
+    image: debezium/postgres:13
+    ports:
+      - "5557:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=middle_db
+
+  postgres4:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=destination_db
+    ports:
+      - "5558:5432"
+
   zookeeper:
     image: confluentinc/cp-zookeeper:5.5.3
     environment:

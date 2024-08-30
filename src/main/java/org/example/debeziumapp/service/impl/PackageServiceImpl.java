@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.debeziumapp.dto.PackageDto;
 import org.example.debeziumapp.entity.Change;
 import org.example.debeziumapp.entity.Package;
+import org.example.debeziumapp.entity.enums.ChangeStatus;
 import org.example.debeziumapp.entity.enums.PackageStatus;
 import org.example.debeziumapp.repository.api.ChangeRepository;
 import org.example.debeziumapp.repository.api.PackageRepository;
@@ -30,6 +31,18 @@ public class PackageServiceImpl implements PackageService {
 
     private final PackageRepository packageRepository;
 
+    @Transactional
+    @Override
+    public void createPackage(PackageDto packageDto) {
+        List<Change> changes = changeRepository.findByIdIn(packageDto.getChangesId());
+        Package pack = Package.builder()
+                .status(PackageStatus.CREATED)
+                .changes(changes)
+                .build();
+        packageRepository.save(pack);
+        changes.forEach(change -> change.setStatus(ChangeStatus.IN_PACKAGE));
+    }
+
     @Override
     @Transactional
     public byte[] unloadPackage(Long packageId) {
@@ -52,16 +65,14 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public void deletePackage(Long packageId) {
         packageRepository.deleteById(packageId);
-    }
-
-    @Override
-    public void createPackage(PackageDto packageDto) {
-        List<Change> changes = changeRepository.findByIdIn(packageDto.getChangesId());
-        Package pack = Package.builder()
-                .status(PackageStatus.CREATED)
-                .changes(changes)
-                .build();
-        packageRepository.save(pack);
+        Package pack = packageRepository.findById(packageId)
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+        List<Long> changeIds = pack.getChanges()
+                .stream()
+                .map(Change::getId)
+                .toList();
+        List<Change> changes = changeRepository.findByIdIn(changeIds);
+        changes.forEach(change -> change.setStatus(ChangeStatus.CREATED));
     }
 
     @SneakyThrows
